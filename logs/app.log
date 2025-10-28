@@ -1,0 +1,12 @@
+2025-10-28 19:42:25,152 [INFO] calculator - add called with a=2.0 b=3.0
+2025-10-28 19:42:25,164 [INFO] calculator - subtract called with a=5.0 b=10.0
+2025-10-28 19:42:25,174 [INFO] calculator - multiply called with a=3.0 b=2.5
+2025-10-28 19:42:25,187 [INFO] calculator - divide called with a=9.0 b=2.0
+2025-10-28 19:42:25,200 [INFO] calculator - divide called with a=9.0 b=0.0
+2025-10-28 19:42:25,200 [WARNING] calculator - division by zero: a=9.0 b=0.0
+2025-10-28 19:42:50,419 [INFO] calculator - add called with a=2.0 b=3.0
+2025-10-28 19:42:50,434 [INFO] calculator - subtract called with a=5.0 b=10.0
+2025-10-28 19:42:50,445 [INFO] calculator - multiply called with a=3.0 b=2.5
+2025-10-28 19:42:50,462 [INFO] calculator - divide called with a=9.0 b=2.0
+2025-10-28 19:42:50,496 [INFO] calculator - divide called with a=9.0 b=0.0
+2025-10-28 19:42:50,497 [WARNING] calculator - division by zero: a=9.0 b=0.0

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>FastAPI Calculator</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main>
+    <h1>FastAPI Calculator</h1>
+    <form id="calc-form">
+      <label>
+        A
+        <input id="a" type="number" step="any" required />
+      </label>
+      <label>
+        B
+        <input id="b" type="number" step="any" required />
+      </label>
+      <label>
+        Operation
+        <select id="op">
+          <option value="add">add</option>
+          <option value="subtract">subtract</option>
+          <option value="multiply">multiply</option>
+          <option value="divide">divide</option>
+        </select>
+      </label>
+      <button id="go" type="submit">Calculate</button>
+    </form>
+
+    <pre id="result" aria-live="polite"></pre>
+  </main>
+
+  <script>
+    const endpoints = {
+      add: "/api/add",
+      subtract: "/api/subtract",
+      multiply: "/api/multiply",
+      divide: "/api/divide",
+    };
+    const form = document.getElementById("calc-form");
+    const out = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const a = document.getElementById("a").value;
+      const b = document.getElementById("b").value;
+      const op = document.getElementById("op").value;
+
+      const url = `${endpoints[op]}?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
+      out.textContent = "Loading...";
+      try {
+        const r = await fetch(url);
+        if (!r.ok) {
+          const err = await r.json();
+          out.textContent = `Error ${r.status}: ${err.detail}`;
+          return;
+        }
+        const data = await r.json();
+        out.textContent = `Result: ${data.result}`;
+      } catch (err) {
+        out.textContent = "Network error: " + err;
+      }
+    });
+  </script>
+</body>
+</html>

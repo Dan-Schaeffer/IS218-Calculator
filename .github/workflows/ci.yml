@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: |
+          python -m playwright install --with-deps
+
+      - name: Run unit & integration tests
+        run: |
+          pytest -q --maxfail=1 --disable-warnings --cov=app --cov-report=term-missing
+
+      - name: Run E2E tests (Playwright)
+        env:
+          # Prevent uvicorn from binding to privileged ports etc.
+          PYTHONUNBUFFERED: "1"
+        run: |
+          pytest -q e2e

@@ -33,36 +33,43 @@
   </main>
 
   <script>
-    const endpoints = {
-      add: "/api/add",
-      subtract: "/api/subtract",
-      multiply: "/api/multiply",
-      divide: "/api/divide",
-    };
-    const form = document.getElementById("calc-form");
-    const out = document.getElementById("result");
+  const endpoints = {
+    add: "/api/add",
+    subtract: "/api/subtract",
+    multiply: "/api/multiply",
+    divide: "/api/divide",
+  };
+  const form = document.getElementById("calc-form");
+  const out = document.getElementById("result");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const a = document.getElementById("a").value;
-      const b = document.getElementById("b").value;
-      const op = document.getElementById("op").value;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const a = document.getElementById("a").value;
+    const b = document.getElementById("b").value;
+    const op = document.getElementById("op").value;
 
-      const url = `${endpoints[op]}?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
-      out.textContent = "Loading...";
-      try {
-        const r = await fetch(url);
-        if (!r.ok) {
-          const err = await r.json();
-          out.textContent = `Error ${r.status}: ${err.detail}`;
-          return;
-        }
-        const data = await r.json();
-        out.textContent = `Result: ${data.result}`;
-      } catch (err) {
-        out.textContent = "Network error: " + err;
+    const url = `${endpoints[op]}?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
+    out.textContent = "Loading...";
+    try {
+      const r = await fetch(url);
+      if (!r.ok) {
+        const err = await r.json();
+        out.textContent = `Error ${r.status}: ${err.detail}`;
+        return;
       }
-    });
-  </script>
+
+      const data = await r.json();
+      const formatted =
+        Number.isFinite(data.result) && Number.isInteger(data.result)
+          ? Number(data.result).toFixed(1)
+          : `${data.result}`;
+      out.textContent = `Result: ${formatted}`;
+      
+    } catch (err) {
+      out.textContent = "Network error: " + err;
+    }
+  });
+</script>
+
 </body>
 </html>
